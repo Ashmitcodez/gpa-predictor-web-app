@@ -269,19 +269,21 @@ model_2026 = models[model_choice_2026]
 if st.button("Predict 2026 GPA", key="predict_future"):
     error_msgs = []
 
-    # Check sum of A+B+C
+    # Calculate total of A+B+C
     sum_abc = pct_a_2026 + pct_b_2026 + pct_c_2026
-    if abs(sum_abc - 100) > 0.5:  # allow for minor rounding
+
+    # 1. Check that A+B+C equals 100%
+    if abs(sum_abc - 100) > 0.5:  # allow small rounding differences
         error_msgs.append(
             f"A-range ({pct_a_2026:.1f}%) + B-range ({pct_b_2026:.1f}%) + C-range ({pct_c_2026:.1f}%) = {sum_abc:.1f}%. "
-            "These must add up to 100% of students."
+            "These must add up to 100%."
         )
-
-    # Check that PassRate matches A+B+C
-    if abs(pass_rate_2026 - sum_abc) > 0.5:
+    # 2. Check if 100 - % c grades > % fail rate
+    fail_rate = 100 - pass_rate_2026
+    if (100 - pct_c_2026) > fail_rate + 0.5:  # allow small tolerance
         error_msgs.append(
-            f"PassRate ({pass_rate_2026:.1f}%) does not match the total of A+B+C ({sum_abc:.1f}%). "
-            "Since A, B, and C are all passing grades, this should match."
+            f"100 - C% = {100 - pct_c_2026:.1f}% is greater than the fail rate ({fail_rate:.1f}%). "
+            "This is inconsistent: the share of A and B grades cannot exceed the fail rate."
         )
 
     # Show errors if any
