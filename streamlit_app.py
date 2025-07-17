@@ -278,12 +278,11 @@ if st.button("Predict 2026 GPA", key="predict_future"):
             f"A-range ({pct_a_2026:.1f}%) + B-range ({pct_b_2026:.1f}%) + C-range ({pct_c_2026:.1f}%) = {sum_abc:.1f}%. "
             "These must add up to 100%."
         )
-    # 2. Check if 100 - % c grades > % fail rate
-    fail_rate = 100 - pass_rate_2026
-    if (100 - pct_c_2026) > fail_rate + 0.5:  # allow small tolerance
+        # 2. Check that C-or-lower% is at least fail rate
+    if pct_c_2026 + 0.5 < fail_rate:  # allow small tolerance
         error_msgs.append(
-            f"100 - C% = {100 - pct_c_2026:.1f}% is greater than the fail rate ({fail_rate:.1f}%). "
-            "This is inconsistent: the share of A and B grades cannot exceed the fail rate."
+            f"C-range (including D or lower) is {pct_c_2026:.1f}%, but fail rate (100 - PassRate) is {fail_rate:.1f}%. "
+            "C-range (including fails) must be at least as large as the fail rate, because all failing students are within C or lower."
         )
 
     # Show errors if any
