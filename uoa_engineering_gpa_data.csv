@@ -1,0 +1,71 @@
+Year,Specialisation,SeatsAvailable,CohortSize,PopularityScore,LowerBoundGPA
+2019,Biomedical,35,987,4.0,5.2
+2019,Chemical and Materials,85,987,1.0,
+2019,Civil and Environmental,185,987,4.0,2.6
+2019,Computer Systems,100,987,7.0,3.4
+2019,Electrical and Electronic,100,987,1.0,
+2019,Engineering Science,80,987,9.0,7.0
+2019,Mechanical,125,987,4.0,3.6
+2019,Mechatronics,105,987,6.0,6.0
+2019,Software,120,987,8.0,6.4
+2019,Structural,105,987,,
+2020,Biomedical,35,995,3.0,4.6
+2020,Chemical and Materials,85,995,1.0,
+2020,Civil and Environmental,185,995,3.0,2.5
+2020,Computer Systems,100,995,4.0,2.2
+2020,Electrical and Electronic,100,995,1.0,
+2020,Engineering Science,80,995,4.0,5.4
+2020,Mechanical,125,995,3.0,2.7
+2020,Mechatronics,105,995,7.0,6.1
+2020,Software,120,995,9.0,6.4
+2020,Structural,105,995,,
+2021,Biomedical,35,1020,3.0,4.4
+2021,Chemical and Materials,85,1020,1.0,
+2021,Civil and Environmental,185,1020,4.0,3.6
+2021,Computer Systems,100,1020,6.0,1.1
+2021,Electrical and Electronic,100,1020,1.0,
+2021,Engineering Science,80,1020,6.0,6.7
+2021,Mechanical,125,1020,1.0,1.1
+2021,Mechatronics,105,1020,7.0,6.9
+2021,Software,120,1020,9.0,7.9
+2021,Structural,105,1020,1.0,
+2022,Biomedical,35,994,4.0,4.7
+2022,Chemical and Materials,85,994,1.0,
+2022,Civil and Environmental,185,994,3.0,2.8
+2022,Computer Systems,100,994,5.0,4.0
+2022,Electrical and Electronic,100,994,1.0,
+2022,Engineering Science,80,994,7.0,6.0
+2022,Mechanical,125,994,3.0,2.7
+2022,Mechatronics,105,994,8.0,6.2
+2022,Software,120,994,10.0,7.2
+2022,Structural,105,994,1.0,
+2023,Biomedical,35,1035,3.0,3.6
+2023,Chemical and Materials,85,1035,1.0,
+2023,Civil and Environmental,185,1035,3.0,1.9
+2023,Computer Systems,100,1035,7.0,4.9
+2023,Electrical and Electronic,100,1035,1.0,
+2023,Engineering Science,80,1035,7.0,6.2
+2023,Mechanical,125,1035,2.0,1.8
+2023,Mechatronics,105,1035,8.0,6.2
+2023,Software,120,1035,10.0,7.0
+2023,Structural,105,1035,1.0,
+2024,Biomedical,35,875,2.0,
+2024,Chemical and Materials,85,875,1.0,
+2024,Civil and Environmental,185,875,4.0,
+2024,Computer Systems,100,875,6.0,
+2024,Electrical and Electronic,100,875,2.0,
+2024,Engineering Science,80,875,4.0,3.8
+2024,Mechanical,125,875,7.0,3.8
+2024,Mechatronics,105,875,10.0,6.9
+2024,Software,120,875,6.0,5.8
+2024,Structural,105,875,1.0,
+2025,Biomedical,35,958,2.0,3.0
+2025,Chemical and Materials,85,958,1.0,
+2025,Civil and Environmental,185,958,3.0,1.7
+2025,Computer Systems,100,958,5.0,1.7
+2025,Electrical and Electronic,100,958,6.0,3.2
+2025,Engineering Science,80,958,2.0,
+2025,Mechanical,125,958,8.0,4.7
+2025,Mechatronics,105,958,9.0,6.9
+2025,Software,120,958,4.0,4.6
+2025,Structural,105,958,1.0,

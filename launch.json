@@ -1,0 +1,17 @@
+{
+    "configurations": [
+      {
+        "type": "debugpy",
+        "request": "launch",
+        "name": "Launch GPA Predictor",
+        "program": "${workspaceFolder}/${input:programPath}"
+      }
+    ],
+    "inputs": [
+      {
+        "type": "promptString",
+        "id": "programPath",
+        "description": "Enter the path to the Python file to debug (e.g., gpa_predictor_fixed.py)"
+      }
+    ]
+  }
