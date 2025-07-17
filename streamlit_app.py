@@ -267,18 +267,28 @@ model_2026 = models[model_choice_2026]
 
 # Handle predict button
 if st.button("Predict 2026 GPA", key="predict_future"):
-    sum_pct = pct_a_2026 + pct_b_2026 + pct_c_2026
-    fail_rate = 100 - pass_rate_2026
     error_msgs = []
-    if abs(sum_pct - 100) > 2:
-        error_msgs.append(f"The grade percentages (A+B+C or lower) add up to {sum_pct:.1f}%, expected 100%.")
-    if pct_c_2026 > fail_rate + 1:
-        error_msgs.append(f"C or lower grades ({pct_c_2026:.1f}%) exceed the failing percentage ({fail_rate:.1f}%) from PassRate.")
+
+    # Check sum of A+B+C
+    sum_abc = pct_a_2026 + pct_b_2026 + pct_c_2026
+    if abs(sum_abc - 100) > 0.5:  # allow for minor rounding
+        error_msgs.append(
+            f"A-range ({pct_a_2026:.1f}%) + B-range ({pct_b_2026:.1f}%) + C-range ({pct_c_2026:.1f}%) = {sum_abc:.1f}%. "
+            "These must add up to 100% of students."
+        )
+
+    # Check that PassRate matches A+B+C
+    if abs(pass_rate_2026 - sum_abc) > 0.5:
+        error_msgs.append(
+            f"PassRate ({pass_rate_2026:.1f}%) does not match the total of A+B+C ({sum_abc:.1f}%). "
+            "Since A, B, and C are all passing grades, this should match."
+        )
+
+    # Show errors if any
     if error_msgs:
         for m in error_msgs:
             st.error(m)
         st.stop()
-
     # Prepare input row for future scenario
     input_dict_2026 = {
         "SeatsAvailable": seats_2026,
