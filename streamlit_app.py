@@ -271,6 +271,7 @@ if st.button("Predict 2026 GPA", key="predict_future"):
 
     # Calculate total of A+B+C
     sum_abc = pct_a_2026 + pct_b_2026 + pct_c_2026
+    fail_rate = 100 - pass_rate_2026
 
     # 1. Check that A+B+C equals 100%
     if abs(sum_abc - 100) > 0.5:  # allow small rounding differences
