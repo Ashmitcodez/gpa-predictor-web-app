@@ -61,6 +61,10 @@ Each record corresponds to **one specialisation in one year**, with features suc
 The model does **not use the year as a feature**.  
 It only uses those input variables to learn relationships.
 
+**So when you explore historical data:**  
+👉 You’re not asking for a specific year.  
+👉 You’re seeing how well the model would have predicted the known cutoffs (2019–2025) based on the conditions in those records.
+
 ### Training and Evaluation
 1. The dataset (2019–2025 rows) is split into:
    - **Train set (80%)** – the model learns patterns from these records.
@@ -70,12 +74,6 @@ It only uses those input variables to learn relationships.
    - Predicts cutoffs for the test set (which correspond to actual past years and specialisations, e.g., *2021 Software*, *2023 Civil*).
    - Compares predicted cutoffs to the known historical cutoffs for those same records.
    - Shows you **MAE, RMSE, and R²** and an **Actual vs. Predicted plot** so you can judge model performance.
-
-**So when you explore historical data:**  
-👉 You’re not asking for a specific year.  
-👉 You’re seeing how well the model would have predicted the known cutoffs (2019–2025) based on the conditions in those records.
-
-
 
 ## 📈 Validations
 
