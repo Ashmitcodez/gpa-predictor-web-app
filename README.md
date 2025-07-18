@@ -1,109 +1,98 @@
-# uoa-p2-engineering-mingpa-predictor
-Supervised machine learning model to predict GPA cutoffs for University of Auckland engineering specialisations using decision trees.
+# UoA Engineering Specialisation GPA cut-off Predictor
 
+An **interactive Streamlit web app** that predicts GPA cutoffs for entry into engineering specialisations at the University of Auckland.
 
-# 🧠 UoA Part II Engineering GPA Cutoff Predictor
-
-A supervised machine learning tool to estimate GPA cutoffs for entry into University of Auckland's Part II engineering specialisations based on historical data, popularity scores, and cohort size.
-
----
-
-## 📌 Project Objective
-
-The goal of this project is to help students predict the minimum GPA required for their desired engineering specialisation using past data and a machine learning model. This can help manage expectations and inform academic planning for students.
+It allows you to:
+- Explore **historical patterns** (2019–2025) between intake data, grade distributions, and actual GPA cutoffs.
+- Experiment with different **machine learning models** that you can choose yourself.
+- Enter hypothetical **future scenarios (e.g., 2026)** and see predicted GPA cutoffs.
 
 ---
 
-## 🔍 How It Works
+## ✨ Features
 
-- Trained on historical data from **2019 to 2025**
-- Users provide:
-  - Estimated **popularity score** (1–10) for each spec
-  - Expected **cohort size**
-- Predicts **minimum GPA cutoffs for 2026/any other cohort** based on user input on popularity and cohort size and makes use of trained data from 2019-2025 cohorts. 
-- A CLI interface displays predicted GPA ranges and flags a spec as "N/A" if demand is too low
+**Historic Data Exploration**  
+- Adjust input variables like Seats Available, Cohort Size, Popularity Score, and average grade statistics.  
+- See what GPA cutoff the model would have predicted historically for those conditions.  
+- View **model performance metrics** (MAE, RMSE, R²) and an **Actual vs. Predicted** plot.  
+- Inspect **feature importance** to see which inputs the model relied on.  
+- **Choose the model** yourself: Decision Tree, Random Forest, Linear Regression, Gradient Boosting, or XGBoost.
 
----
+**Future Prediction (e.g., 2026)**  
+- Enter your own assumptions for seats, popularity, cohort size, and grade distributions.
+- Predict a future GPA cutoff based on patterns learned from historical data.
+- Validation checks ensure grade distributions make sense before prediction.
 
-## 🧠 Machine Learning Model
+**Multiple Models to Compare**  
+When exploring data or predicting, you can switch between:
+- Decision Tree
+- Random Forest
+- Linear Regression
+- Gradient Boosting
+- XGBoost  
+…and immediately see how their predictions and metrics differ.
 
-- **Type:** Supervised Regression
-- **Model Used:** `DecisionTreeRegressor` from `scikit-learn`
-- **Features Used:**
-  - Year
-  - Cohort Size
-  - Seats Available
-  - Current and Previous Popularity Scores
-  - Previous Year GPA
-  - Missing Value Flags
-- **Target:** `LowerBoundGPA` (predicted GPA cutoff)
-
----
-
-## 🛠 Technologies
-
-- `Python 3`
-- `pandas` – Data manipulation
-- `numpy` – Numerical processing
-- `scikit-learn` – Machine learning model
-- `tabulate` – Formatted CLI output
+**Built‑in Validations**  
+- Ensures `A% + B% + C% = 100%` (all grade bands accounted for).  
+- Ensures `C% (including fails) ≥ FailRate (100 − PassRate)` for logical consistency.
 
 ---
 
-## 💻 How to Run
+## 📅 How Historical Prediction Works
 
-1. Clone this repository or download the `.py` file if you have the libraries (pandas, numpy, scikit-learn, tabulate) pre installed
-2. Install the required packages:
+The app has historical records from:
+- **2019–2025 cohorts** (specialisation intake data)
+- Merged with **2018–2024 course grade distributions**.
 
+Each record corresponds to **one specialisation in one year**, with features such as:
+| Feature Name       | Description                                                                                   | Example Values |
+|-------------------|-----------------------------------------------------------------------------------------------|----------------|
+| **SeatsAvailable** | Number of seats offered in that specialisation for the year.                                 | 35, 120, 185   |
+| **CohortSize**     | Total number of students in the cohort applying that year.                                   | 875, 1020, 1100 |
+| **PopularityScore**| Relative popularity of the specialisation (based on student rankings/preferences).           | 2.0, 7.0, 10.0 |
+| **AvgCourseGPA**   | Average GPA across all relevant courses for the previous year.                               | 4.8, 6.0, 7.2 |
+| **MedianCourseGPA**| Median GPA across all relevant courses for the previous year.                                | 4.5, 5.8, 6.4 |
+| **PassRate**       | Percentage of students passing courses (C and above).                                        | 85%, 90%, 95% |
+| **PctA**           | Percentage of students achieving an A‑range grade (A+, A, A‑).                               | 30%, 45%, 60% |
+| **PctB**           | Percentage of students achieving a B‑range grade (B+, B, B‑).                               | 20%, 35%, 50% |
+| **PctCOrLower**    | Percentage of students receiving C grades or lower (C+, C, C‑, D+, D, D‑).                   | 10%, 25%, 40% |
+| **VarGPA**         | Variance of course GPA across all courses (higher = more variation in student performance).  | 0.8, 1.2, 2.0 |
+| **Specialisation** | One‑hot encoded indicator columns for each engineering specialisation (e.g., Software, Civil). | 0 or 1 values |
+
+**Important:**  
+The model does **not use the year as a feature**.  
+It only uses those input variables to learn relationships.
+
+### Training and Evaluation
+1. The dataset (2019–2025 rows) is split into:
+   - **Train set (80%)** – the model learns patterns from these records.
+   - **Test set (20%)** – used to check how well the model generalizes.
+
+2. After training, the app:
+   - Predicts cutoffs for the test set (which correspond to actual past years and specialisations, e.g., *2021 Software*, *2023 Civil*).
+   - Compares predicted cutoffs to the known historical cutoffs for those same records.
+   - Shows you **MAE, RMSE, and R²** and an **Actual vs. Predicted plot** so you can judge model performance.
+
+**So when you explore historical data:**  
+👉 You’re not asking for a specific year.  
+👉 You’re seeing how well the model would have predicted the known cutoffs (2019–2025) based on the conditions in those records.
+
+---
+
+## 📈 Validations
+
+Before making a future prediction, the app checks:
+- **Grade bands completeness:** `A% + B% + C%` must equal 100%.  
+- **Logical consistency:** `C% (including fails) >= FailRate (100 − PassRate)`.  
+If these conditions aren’t met, the app displays an error and stops prediction.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+- Python 3.9 or higher
+- Install dependencies:
 ```bash
 pip install -r requirements.txt
-```
 
-3. Run the script:
-
-```bash
-python gpa_predictor.py
-```
-
-4. Follow the CLI prompts to enter:
-   - Total cohort size (e.g. 987)
-   - Popularity scores for each specialisation
-
----
-
-## ✨ Example Output
-
-```
---- Predicted GPA Cutoffs for 2026 ---
-Specialisation           Lower GPA    Upper GPA
-------------------------------------------------
-Biomedical               3.56         3.76
-Mechanical               6.90         7.10
-Civil & Env              3.00         3.20
-Structural               N/A          N/A
-...
-```
-
-Note: `'N/A'` indicates a specialisation may not be filled due to low popularity and demand.
-
----
-
-## 📈 Why Decision Trees?
-
-- Handles non-linear relationships in GPA vs. popularity/seats
-- Works well with small, structured datasets
-- Easy to understand and explain to non-technical users
-
----
-
-## 📁 Files
-
-- `gpa_predictor.py`: Main script
-- `requirements.txt`: Dependency list
-- `README.md`: You're reading it 🙂
-
-## 👨‍💻 Author
-
-Made with 💻 and 📊 by Ashmit Bhola – feel free to connect on [LinkedIn](https://www.linkedin.com/in/ashmit-bhola/) 
-
----
