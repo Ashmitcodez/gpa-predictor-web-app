@@ -116,17 +116,13 @@ http://localhost:8501
 ```
 ## 🌐 Live Demo 
 
-👉 **Streamlit Cloud Link:**   
-
----
+👉 **Streamlit Cloud Link:**   https://gpa-predictor-web-app.streamlit.app/
 
 ## 🛠️ Tech Stack
 
 - **Frontend:** [Streamlit](https://streamlit.io)
 - **Backend:** Python 3, pandas, scikit-learn, XGBoost
 - **Visualization:** matplotlib, seaborn
-
----
 
 ## 📌 Notes
 
