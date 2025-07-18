@@ -1,5 +1,6 @@
 # UoA Engineering Specialisation GPA cut-off Predictor
 
+https://gpa-predictor-web-app.streamlit.app/ 
 An **interactive Streamlit web app** that predicts GPA cutoffs for entry into engineering specialisations at the University of Auckland.
 
 It allows you to:
