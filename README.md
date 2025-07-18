@@ -90,3 +90,29 @@ If these conditions aren’t met, the app displays an error and stops prediction
 ```bash
 pip install -r requirements.txt
 
+(Mac users with XGBoost:)
+Install OpenMP runtime if you see `libomp` errors:
+```bash
+brew install libomp
+
+### Running the app
+In your terminal:
+```bash
+streamlit run streamlit_app.py
+
+Then open the local URL it prints, usually:
+```bash
+http://localhost:8501
+
+## Project Structure
+.
+├── uoa_engineering_gpa_data.csv            # Historical intake data
+├── grade distribution - 2018 to 2024.xlsx  # Historical grade distributions
+├── streamlit_app.py                        # Main app code
+├── requirements.txt                        # Python dependencies
+└── README.md                               # This file
+
+
+
+
+
