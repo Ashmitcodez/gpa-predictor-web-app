@@ -106,12 +106,33 @@ Then open the local URL it prints, usually:
 http://localhost:8501
 ```
 ## Project Structure
+```bash
 .
 ├── uoa_engineering_gpa_data.csv            # Historical intake data
 ├── grade distribution - 2018 to 2024.xlsx  # Historical grade distributions
 ├── streamlit_app.py                        # Main app code
 ├── requirements.txt                        # Python dependencies
 └── README.md                               # This file
+```
+## 🌐 Live Demo 
+
+👉 **Streamlit Cloud Link:**   
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** [Streamlit](https://streamlit.io)
+- **Backend:** Python 3, pandas, scikit-learn, XGBoost
+- **Visualization:** matplotlib, seaborn
+
+---
+
+## 📌 Notes
+
+- The model is trained on historical data with limited scope, so predictions are for **exploration only** — not official cutoffs.
+- You can **choose the model** in the app to see how different approaches (Decision Tree, Random Forest, Linear Regression, Gradient Boosting, XGBoost) behave on the same data.
+- The app is open source — feel free to fork, experiment, or extend it!
 
 
 
