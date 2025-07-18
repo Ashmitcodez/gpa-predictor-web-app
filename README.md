@@ -7,8 +7,6 @@ It allows you to:
 - Experiment with different **machine learning models** that you can choose yourself.
 - Enter hypothetical **future scenarios (e.g., 2026)** and see predicted GPA cutoffs.
 
----
-
 ## ✨ Features
 
 **Historic Data Exploration**  
@@ -35,8 +33,6 @@ When exploring data or predicting, you can switch between:
 **Built‑in Validations**  
 - Ensures `A% + B% + C% = 100%` (all grade bands accounted for).  
 - Ensures `C% (including fails) ≥ FailRate (100 − PassRate)` for logical consistency.
-
----
 
 ## 📅 How Historical Prediction Works
 
@@ -77,7 +73,7 @@ It only uses those input variables to learn relationships.
 👉 You’re not asking for a specific year.  
 👉 You’re seeing how well the model would have predicted the known cutoffs (2019–2025) based on the conditions in those records.
 
----
+
 
 ## 📈 Validations
 
@@ -85,8 +81,6 @@ Before making a future prediction, the app checks:
 - **Grade bands completeness:** `A% + B% + C%` must equal 100%.  
 - **Logical consistency:** `C% (including fails) >= FailRate (100 − PassRate)`.  
 If these conditions aren’t met, the app displays an error and stops prediction.
-
----
 
 ## 🚀 Getting Started
 
