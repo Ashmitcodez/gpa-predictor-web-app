@@ -89,6 +89,7 @@ If these conditions aren’t met, the app displays an error and stops prediction
 - Install dependencies:
 ```bash
 pip install -r requirements.txt
+```
 
 (Mac users with XGBoost:)
 Install OpenMP runtime if you see `libomp` errors:
