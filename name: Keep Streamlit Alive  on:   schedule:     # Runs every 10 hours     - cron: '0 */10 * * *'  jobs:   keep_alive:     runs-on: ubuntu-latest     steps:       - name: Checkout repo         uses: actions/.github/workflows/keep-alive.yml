@@ -2,12 +2,14 @@ name: Keep Streamlit Alive
 
 on:
   schedule:
-    # Runs every 2 hours
-    - cron: '0 */2 * * *'
+    - cron: '0 */2 * * *'   # every 2 hours
+  workflow_dispatch:         # allow manual run to test
 
 jobs:
   keep_alive:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repo
         uses: actions/checkout@v3
