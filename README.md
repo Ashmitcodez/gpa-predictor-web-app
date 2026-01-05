@@ -37,7 +37,7 @@ When exploring data or predicting, you can switch between:
 - Ensures `A% + B% + C% = 100%` (all grade bands accounted for).  
 - Ensures `C% (including fails) ≥ FailRate (100 − PassRate)` for logical consistency.
 
-## 📅 How Historical Prediction Works
+## How Historical Prediction Works
 
 The app has historical records from:
 - **2019–2025 cohorts** (specialisation intake data)
@@ -115,9 +115,9 @@ http://localhost:8501
 ├── requirements.txt                        # Python dependencies
 └── README.md                               # This file
 ```
-## 🌐 Live Demo 
+## Live Demo 
 
-👉 **Streamlit Cloud Link:**   https://gpa-predictor-web-app.streamlit.app/
+**Streamlit Cloud Link:**   https://gpa-predictor-web-app.streamlit.app/
 
 ## 🛠️ Tech Stack
 
@@ -127,9 +127,9 @@ http://localhost:8501
 
 ## 📌 Notes
 
-- The model is trained on historical data with limited scope, so predictions are for **exploration only** — not official cutoffs.
+- The model is trained on historical data with a limited scope, so predictions are for **exploration only**. These are not official cutoffs.
 - You can **choose the model** in the app to see how different approaches (Decision Tree, Random Forest, Linear Regression, Gradient Boosting, XGBoost) behave on the same data.
-- The app is open source — feel free to fork, experiment, or extend it!
+- The app is open source. Feel free to fork, experiment with, or extend it!
 
 
 
