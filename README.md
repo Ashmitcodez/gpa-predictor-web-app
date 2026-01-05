@@ -76,14 +76,14 @@ It only uses those input variables to learn relationships.
    - Compares predicted cutoffs to the known historical cutoffs for those same records.
    - Shows you **MAE, RMSE, and R²** and an **Actual vs. Predicted plot** so you can judge model performance.
 
-## 📈 Validations
+## Validation Checks
 
 Before making a future prediction, the app checks:
 - **Grade bands completeness:** `A% + B% + C%` must equal 100%.  
 - **Logical consistency:** `C% (including fails) >= FailRate (100 − PassRate)`.  
 If these conditions aren’t met, the app displays an error and stops prediction.
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 - Python 3.9 or higher
@@ -125,7 +125,7 @@ http://localhost:8501
 - **Backend:** Python 3, pandas, scikit-learn, XGBoost
 - **Visualization:** matplotlib, seaborn
 
-## 📌 Notes
+## Key Notes
 
 - The model is trained on historical data with a limited scope, so predictions are for **exploration only**. These are not official cutoffs.
 - You can **choose the model** in the app to see how different approaches (Decision Tree, Random Forest, Linear Regression, Gradient Boosting, XGBoost) behave on the same data.
