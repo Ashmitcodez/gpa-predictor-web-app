@@ -202,8 +202,8 @@ st.write(f"MAE: {mae:.3f} | RMSE: {rmse:.3f} | R²: {r2:.3f}")
 # Add interpretation for metrics
 with st.expander("How to interpret these metrics"):
     st.markdown("""
-MAE: On average, how far off predictions are in GPA points. Example: MAE = 0.3 means off by about 0.3 GPA points on average.  
-RMSE: Similar to MAE but larger errors have more weight. Example: RMSE = 0.5 means typical error is about 0.5 GPA points.  
+MAE (Mean Absolute Error) : On average, how far off predictions are in GPA points. Example: MAE = 0.3 means off by about 0.3 GPA points on average.  
+RMSE (Root Mean Squared Error): Similar to MAE but larger errors have more weight. Example: RMSE = 0.5 means typical error is about 0.5 GPA points.  
 R²: Shows how much variation in GPA cutoffs is explained by the model (closer to 1 is better).
 """)
 
@@ -273,13 +273,13 @@ if st.button("Predict 2026 GPA", key="predict_future"):
     sum_abc = pct_a_2026 + pct_b_2026 + pct_c_2026
     fail_rate = 100 - pass_rate_2026
 
-    # 1. Check that A+B+C equals 100%
+    # Check that A+B+C equals 100%
     if abs(sum_abc - 100) > 0.5:  # allow small rounding differences
         error_msgs.append(
             f"A-range ({pct_a_2026:.1f}%) + B-range ({pct_b_2026:.1f}%) + C-range ({pct_c_2026:.1f}%) = {sum_abc:.1f}%. "
             "These must add up to 100%."
         )
-        # 2. Check that C-or-lower% is at least fail rate
+        # Check that C-or-lower% is at least fail rate
     if pct_c_2026 + 0.5 < fail_rate:  # allow small tolerance
         error_msgs.append(
             f"C-range (including D or lower) is {pct_c_2026:.1f}%, but fail rate (100 - PassRate) is {fail_rate:.1f}%. "
