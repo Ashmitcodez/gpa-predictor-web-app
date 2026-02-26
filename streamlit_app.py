@@ -139,9 +139,12 @@ gradient boosting, XGBoost and linear regression). The year itself is not used a
 feature so the learned relationships are purely driven by the input conditions.
 
 When a prediction is requested the selected model returns a point estimate; the
-quoted error margin (±) is simply the model's root‑mean‑squared error on a 20 % hold‑out
-test set from the historic data. For transparency the app also reports MAE, RMSE and
-R² for that test set after each prediction.
+quoted error margin (±) is the model's root‑mean‑squared error on the fixed 20 %
+hold‑out test set from the historic data. In addition we compute five‑fold
+cross‑validation across the entire dataset, which re‑splits the data repeatedly and
+generally gives a more stable estimate of expected error. Both sets of metrics
+(MAE, RMSE and R²) are reported after each prediction so you can compare the two
+evaluation methods.
 
 Features used in the model:
 - SeatsAvailable, CohortSize, PopularityScore
@@ -160,6 +163,9 @@ st.markdown("""
 - After you click **Predict 2026 GPA** the selected model will produce a point
   estimate and display an approximate error margin (±RMSE) derived from historical
   performance.
+- The app evaluates each model two ways: using the 20 % hold‑out test set and via
+  5‑fold cross‑validation on the whole dataset. Both sets of MAE/RMSE/R² metrics
+  are shown so you can see the difference.
 - Look at the performance metrics below (MAE, RMSE, R²) to understand how the
   model has fared on past data; smaller errors and higher R² indicate more
   reliable predictions.
@@ -240,20 +246,50 @@ if st.button("Predict 2026 GPA", key="predict_future"):
     rmse_26 = np.sqrt(mean_squared_error(y_test, y_pred_test_2026))
     r2_26 = r2_score(y_test, y_pred_test_2026)
 
-    # Display prediction with approximate ±RMSE margin
+    # also compute 5-fold cross-validation on the full dataset
+    from sklearn.model_selection import cross_validate
+    cv_results = cross_validate(
+        model_2026, X, y,
+        scoring=['neg_mean_absolute_error', 'neg_root_mean_squared_error', 'r2'],
+        cv=5
+    )
+    cv_mae = -cv_results['test_neg_mean_absolute_error'].mean()
+    cv_rmse = -cv_results['test_neg_root_mean_squared_error'].mean()
+    cv_r2 = cv_results['test_r2'].mean()
+
+    # Display prediction with approximate ±RMSE margin (hold-out)
     st.success(
         f"Predicted 2026 GPA cutoff for {spec_2026.replace('Specialisation_', '')}: "
         f"{predicted_gpa_2026:.2f} ± {rmse_26:.2f} (approx.)"
     )
 
-    st.markdown("Model performance on past data:")
+    st.markdown("Model performance on past data (20% hold-out):")
     st.write(f"MAE: {mae_26:.3f} | RMSE: {rmse_26:.3f} | R²: {r2_26:.3f}")
+    st.markdown("5‑fold cross‑validation (entire dataset):")
+    st.write(f"MAE: {cv_mae:.3f} | RMSE: {cv_rmse:.3f} | R²: {cv_r2:.3f}")
 
     with st.expander("How to interpret these metrics"):
         st.markdown("""
-Mean Absolute Error: average error in GPA points.  
-Root Mean Squared Error: similar to MAE but gives more weight to larger errors.  
-R²: proportion of variation explained by the model (closer to 1 means better).
+**Mean Absolute Error (MAE)** – the average absolute difference between the
+predicted cutoff and the actual historical cutoff. Smaller values mean the model's
+predictions are, on average, closer to reality.
+
+**Root Mean Squared Error (RMSE)** – like MAE but squaring the errors before
+averaging gives extra penalty to larger misses; it approximates the standard
+deviation of the prediction errors and is the quantity shown as the ± margin.
+
+**R² (coefficient of determination)** – the fraction of variance in the cutoff
+that the model explains. A value of 1.0 means perfect predictions; 0 indicates the
+model is no better than always guessing the average cutoff.
+
+**Hold‑out test set** – a fixed 20 % slice of the historical data that was held back
+before training. Metrics here show how the trained model performs on unseen cases
+and can vary depending on which slice is chosen.
+
+**Cross‑validation** – the data is split into 5 different training/test folds and the
+model is evaluated on each. The reported CV metrics are the averages across folds
+and typically provide a more stable, robust estimate of generalisation
+performance.
 """)
 
     # Show feature importances
