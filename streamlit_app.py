@@ -128,9 +128,20 @@ st.title("UoA Engineering GPA Predictor")
 st.markdown("""
 This tool predicts minimum GPA cutoffs for engineering specialisations at the University of Auckland.
 
-It has two main modes:
-1. Explore historical data (2019–2025): adjust factors and see what GPA cutoff would have been predicted, with metrics and plots showing model accuracy.
-2. Predict future requirements (for example, 2026): enter your assumptions for seats, cohort size, popularity, and grade-distribution metrics to get a predicted cutoff.
+Enter your assumptions for a future year (e.g. 2026) — seats, cohort size, popularity,
+and various grade-distribution metrics — to obtain a predicted cutoff. The model is
+trained on historic data but you won't need to interact with it directly.
+
+Under the hood we load cutoff and grade‑distribution data from 2019–2025, compute
+aggregate features by cohort (average/median GPA, pass rates, grade shares, GPA
+variance, etc.), and fit several regression learners (decision tree, random forest,
+gradient boosting, XGBoost and linear regression). The year itself is not used as a
+feature so the learned relationships are purely driven by the input conditions.
+
+When a prediction is requested the selected model returns a point estimate; the
+quoted error margin (±) is simply the model's root‑mean‑squared error on a 20 % hold‑out
+test set from the historic data. For transparency the app also reports MAE, RMSE and
+R² for that test set after each prediction.
 
 Features used in the model:
 - SeatsAvailable, CohortSize, PopularityScore
@@ -138,110 +149,21 @@ Features used in the model:
 """)
 
 # Historical data section
-st.header("Explore Historical Data")
-st.markdown("""
-**How historical prediction works:**  
-The model is trained using past records (2019–2025) where the GPA cutoff is already known.  
-Each record corresponds to a particular specialisation and year, but the model does **not use the year itself** as a feature.  
-Instead, it uses the conditions for that record — like seats available, cohort size, popularity, and grade statistics — to learn general patterns.
-
-When you explore historical data here, you’re not asking the model to predict for a specific year.  
-Instead, you’re seeing **how well the trained model can estimate known past cutoffs given those conditions**, and you can experiment by adjusting those conditions to see how the prediction would change.
-""")
-
-# Sliders for user inputs
-col1, col2, col3 = st.columns(3)
-with col1:
-    seats = st.slider("Seats Available", 30, 250, 100, key="hist_seats")
-with col2:
-    cohort = st.slider("Cohort Size", 800, 1200, 1000, key="hist_cohort")
-with col3:
-    popularity = st.slider("Popularity Score", 1.0, 10.0, 5.0, step=0.5, key="hist_popularity")
-
-# Specialisation selection
-spec = st.selectbox(
-    "Select Specialisation",
-    sorted([c for c in data.columns if c.startswith("Specialisation_")]),
-    key="hist_spec"
-)
-
-# Build input row for prediction
-input_dict = {
-    "SeatsAvailable": seats,
-    "CohortSize": cohort,
-    "PopularityScore": popularity,
-    "AvgCourseGPA": data["AvgCourseGPA"].mean(),
-    "MedianCourseGPA": data["MedianCourseGPA"].mean(),
-    "PassRate": data["PassRate"].mean(),
-    "PctA": data["PctA"].mean(),
-    "PctB": data["PctB"].mean(),
-    "PctCOrLower": data["PctCOrLower"].mean(),
-    "VarGPA": data["VarGPA"].mean()
-}
-for col in data.columns:
-    if col.startswith("Specialisation_"):
-        input_dict[col] = 1 if col == spec else 0
-input_df = pd.DataFrame([input_dict])
-
-# Let user pick a model and show prediction
-model_choice = st.selectbox("Select a model for prediction:", list(models.keys()), key="hist_model")
-model = models[model_choice]
-
-st.subheader("Predicted GPA cutoff (based on inputs)")
-pred = model.predict(input_df)[0]
-st.metric(label=f"{model_choice}", value=f"{pred:.2f}")
-
-# Evaluate model on test data
-y_pred_test = model.predict(X_test)
-mae = mean_absolute_error(y_test, y_pred_test)
-rmse = np.sqrt(mean_squared_error(y_test, y_pred_test))
-r2 = r2_score(y_test, y_pred_test)
-st.subheader("Model Performance on Past Data")
-st.write(f"MAE: {mae:.3f} | RMSE: {rmse:.3f} | R²: {r2:.3f}")
-
-# Add interpretation for metrics
-with st.expander("How to interpret these metrics"):
-    st.markdown("""
-MAE (Mean Absolute Error) : On average, how far off predictions are in GPA points. Example: MAE = 0.3 means off by about 0.3 GPA points on average.  
-RMSE (Root Mean Squared Error): Similar to MAE but larger errors have more weight. Example: RMSE = 0.5 means typical error is about 0.5 GPA points.  
-R²: Shows how much variation in GPA cutoffs is explained by the model (closer to 1 is better).
-""")
-
-# Plot actual vs predicted
-st.subheader("Actual vs Predicted (historical data)")
-fig1, ax1 = plt.subplots(figsize=(6,6))
-ax1.scatter(y_test, y_pred_test, alpha=0.6)
-min_val = min(y_test.min(), y_pred_test.min())
-max_val = max(y_test.max(), y_pred_test.max())
-ax1.plot([min_val, max_val], [min_val, max_val], 'r--')
-ax1.set_xlabel("Actual GPA")
-ax1.set_ylabel("Predicted GPA")
-ax1.set_title(f"Actual vs Predicted ({model_choice})")
-st.pyplot(fig1)
-
-with st.expander("How to interpret this plot"):
-    st.markdown("""
-Each point represents a past case. Points near the red dashed line mean the model predicted accurately. Points further away mean larger prediction errors.
-""")
-
-# Plot feature importances
-if hasattr(model, "feature_importances_"):
-    st.subheader("Which factors matter most?")
-    feat_df = pd.DataFrame({"Feature": X.columns, "Importance": model.feature_importances_})
-    feat_df = feat_df.sort_values(by="Importance", ascending=False).head(10)
-    fig2, ax2 = plt.subplots(figsize=(8,6))
-    sns.barplot(x="Importance", y="Feature", data=feat_df, ax=ax2)
-    ax2.set_title(f"Top 10 Feature Importances ({model_choice})")
-    st.pyplot(fig2)
-
-    with st.expander("How to interpret this bar chart"):
-        st.markdown("""
-Each bar shows how important a feature was in making predictions. Longer bars mean the feature had more influence.
-""")
-
+# (removed – only forward‑looking predictions are shown to avoid confusion)
 # Future prediction section
 st.header("Predict 2026 Requirement")
-st.markdown("Enter your assumptions for 2026. Grade-related inputs are given as percentages for clarity.")
+st.markdown("""
+- Enter your assumptions for 2026, including seats available, cohort size,
+  popularity score and grade-distribution percentages.
+- Grade-related numbers (pass rate, %A, %B, %C-or-lower) are entered as whole
+  percentages for clarity; they are converted to proportions internally.
+- After you click **Predict 2026 GPA** the selected model will produce a point
+  estimate and display an approximate error margin (±RMSE) derived from historical
+  performance.
+- Look at the performance metrics below (MAE, RMSE, R²) to understand how the
+  model has fared on past data; smaller errors and higher R² indicate more
+  reliable predictions.
+""")
 
 spec_2026 = st.selectbox(
     "Select Specialisation for 2026 Prediction",
@@ -311,13 +233,19 @@ if st.button("Predict 2026 GPA", key="predict_future"):
 
     # Generate prediction for future scenario
     predicted_gpa_2026 = model_2026.predict(input_df_2026)[0]
-    st.success(f"Predicted 2026 GPA cutoff for {spec_2026.replace('Specialisation_', '')}: {predicted_gpa_2026:.2f}")
 
-    # Show model performance based on historical test data
+    # Evaluate historical test performance so we can quote an error margin
     y_pred_test_2026 = model_2026.predict(X_test)
     mae_26 = mean_absolute_error(y_test, y_pred_test_2026)
     rmse_26 = np.sqrt(mean_squared_error(y_test, y_pred_test_2026))
     r2_26 = r2_score(y_test, y_pred_test_2026)
+
+    # Display prediction with approximate ±RMSE margin
+    st.success(
+        f"Predicted 2026 GPA cutoff for {spec_2026.replace('Specialisation_', '')}: "
+        f"{predicted_gpa_2026:.2f} ± {rmse_26:.2f} (approx.)"
+    )
+
     st.markdown("Model performance on past data:")
     st.write(f"MAE: {mae_26:.3f} | RMSE: {rmse_26:.3f} | R²: {r2_26:.3f}")
 
