@@ -296,8 +296,21 @@ performance.
     if hasattr(model_2026, "feature_importances_"):
         st.subheader("Which factors mattered the most?")
         st.markdown(
-            """Feature importances are taken from the model's `feature_importances_` attribute. For tree-based models this
-value reflects how much each feature reduced the training loss (e.g. mean squared error) when used for splits."""
+            """Feature importances come from the model's `feature_importances_` attribute. 
+In tree‑based algorithms (random forest, gradient boosting, XGBoost) the model 
+builds many decision trees; each split in a tree chooses a feature that best reduces 
+errors (measured by mean‑squared error for regression). Importances are computed as 
+the average decrease in that error across all splits and trees where the feature 
+appeared. A larger importance means the model relied more heavily on that 
+feature when making predictions.
+
+Linear Regression works differently — it fits a single equation with coefficients 
+for each feature. The magnitude of a coefficient (especially when features are 
+normalized) indicates how strongly that feature influences the prediction. However, 
+linear models don't have a built‑in `feature_importances_` attribute, so they won't 
+show a chart. Tree‑based models are generally better for inspection since they expose 
+importances directly.
+"""
         )
         fi_df = pd.DataFrame({"Feature": X.columns, "Importance": model_2026.feature_importances_})
         fi_df = fi_df.sort_values(by="Importance", ascending=False).head(10)
