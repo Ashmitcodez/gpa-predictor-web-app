@@ -296,20 +296,12 @@ performance.
     if hasattr(model_2026, "feature_importances_"):
         st.subheader("Which factors mattered the most?")
         st.markdown(
-            """Feature importances come from the model's `feature_importances_` attribute. 
-In tree‑based algorithms (random forest, gradient boosting, XGBoost) the model 
-builds many decision trees; each split in a tree chooses a feature that best reduces 
-errors (measured by mean‑squared error for regression). Importances are computed as 
-the average decrease in that error across all splits and trees where the feature 
-appeared. A larger importance means the model relied more heavily on that 
-feature when making predictions.
+            """Feature importances are a way to measure how much each input variable (feature) contributed to the model's predictions. 
+For tree‑based models (like random forest, gradient boosting, XGBoost), this is provided by the model's `feature_importances_` attribute—a built-in property that automatically calculates and stores these importance values after training. 
+Each time a feature is used to split the data in a tree, the model tracks how much that split reduces prediction error (such as mean squared error). The final importance for each feature is the total reduction in error it provided, averaged over all trees. 
+A higher value means the model relied more on that feature when making predictions.
 
-Linear Regression works differently — it fits a single equation with coefficients 
-for each feature. The magnitude of a coefficient (especially when features are 
-normalized) indicates how strongly that feature influences the prediction. However, 
-linear models don't have a built‑in `feature_importances_` attribute, so they won't 
-show a chart. Tree‑based models are generally better for inspection since they expose 
-importances directly.
+Linear Regression works differently — it fits a single equation with coefficients for each feature. The magnitude of a coefficient (especially when features are normalized) indicates how strongly that feature influences the prediction. However, linear models don't have a built‑in `feature_importances_` attribute, so they won't show a chart. Tree‑based models are generally better for inspection since they expose importances directly.
 """
         )
         fi_df = pd.DataFrame({"Feature": X.columns, "Importance": model_2026.feature_importances_})
