@@ -295,8 +295,10 @@ performance.
     # Show feature importances
     if hasattr(model_2026, "feature_importances_"):
         st.subheader("Which factors mattered the most?")
-        st.markdown("Feature importances are taken from the model's `feature_importances_` attribute. For tree-based models this
-value reflects how much each feature reduced the training loss (e.g. mean squared error) when used for splits.")
+        st.markdown(
+            """Feature importances are taken from the model's `feature_importances_` attribute. For tree-based models this
+value reflects how much each feature reduced the training loss (e.g. mean squared error) when used for splits."""
+        )
         fi_df = pd.DataFrame({"Feature": X.columns, "Importance": model_2026.feature_importances_})
         fi_df = fi_df.sort_values(by="Importance", ascending=False).head(10)
         fig3, ax3 = plt.subplots(figsize=(8,6))
