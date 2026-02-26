@@ -132,7 +132,7 @@ Enter your assumptions for a future year (e.g. 2026) — seats, cohort size, pop
 and various grade-distribution metrics — to obtain a predicted cutoff. The model is
 trained on historic data but you won't need to interact with it directly.
 
-Under the hood we load cutoff and grade‑distribution data from 2019–2025, compute
+In the back end, we load the cutoff's and grade‑distribution data from 2019–2025, compute
 aggregate features by cohort (average/median GPA, pass rates, grade shares, GPA
 variance, etc.), and fit several regression learners (decision tree, random forest,
 gradient boosting, XGBoost and linear regression). The year itself is not used as a
@@ -140,11 +140,16 @@ feature so the learned relationships are purely driven by the input conditions.
 
 When a prediction is requested the selected model returns a point estimate; the
 quoted error margin (±) is the model's root‑mean‑squared error on the fixed 20 %
-hold‑out test set from the historic data. In addition we compute five‑fold
-cross‑validation across the entire dataset, which re‑splits the data repeatedly and
-generally gives a more stable estimate of expected error. Both sets of metrics
-(MAE, RMSE and R²) are reported after each prediction so you can compare the two
-evaluation methods.
+hold‑out test set from the historic data. However, a single train/test split can
+be sensitive to which data happens to land in each set, so we also compute 
+five‑fold cross‑validation across the entire dataset. In cross‑validation, the data 
+is randomly divided into 5 equal chunks (folds); the model is then trained 5 times, 
+each time leaving a different fold out for testing and training on the other 4. 
+The final metrics (MAE, RMSE, R²) are averaged across all 5 folds. This approach 
+is much more robust because every data point is used both for training and testing, 
+and the variation in metrics across folds gives a sense of how sensitive the model 
+is to the specific split. Both sets of metrics are reported after each prediction 
+so you can compare the two evaluation methods and get a gist of how accurate the prediction is.
 
 Features used in the model:
 - SeatsAvailable, CohortSize, PopularityScore
