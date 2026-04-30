@@ -6,9 +6,9 @@ https://gpa-predictor-web-app.streamlit.app/
 An **interactive Streamlit web app** that predicts GPA cutoffs for entry into engineering specialisations at the University of Auckland.
 
 It allows you to:
-- Explore **historical patterns** (2019–2025) between intake data, grade distributions, and actual GPA cutoffs.
+- Explore **historical patterns** (2019–2026) between intake data, grade distributions, and actual GPA cutoffs.
 - Experiment with different **machine learning models** that you can choose yourself.
-- Enter hypothetical **future scenarios (e.g., 2026)** and see predicted GPA cutoffs.
+- Enter hypothetical **future scenarios (e.g., 2027)** and see predicted GPA cutoffs.
 
 ## ✨ Features
 
@@ -19,7 +19,7 @@ It allows you to:
 - Inspect **feature importance** to see which inputs the model relied on.  
 - **Choose the model** yourself: Decision Tree, Random Forest, Linear Regression, Gradient Boosting, or XGBoost.
 
-**Future Prediction (e.g., 2026)**  
+**Future Prediction (e.g., 2027)**  
 - Enter your own assumptions for seats, popularity, cohort size, and grade distributions.
 - Predict a future GPA cutoff based on patterns learned from historical data.
 - Validation checks ensure grade distributions make sense before prediction.
@@ -40,8 +40,8 @@ When exploring data or predicting, you can switch between:
 ## How Historical Prediction Works
 
 The app has historical records from:
-- **2019–2025 cohorts** (specialisation intake data)
-- Merged with **2018–2024 course grade distributions**.
+- **2019–2026 cohorts** (specialisation intake data)
+- Merged with **2018–2025 course grade distributions**.
 
 Each record corresponds to **one specialisation in one year**, with features such as:
 | Feature Name       | Description                                                                                   | Example Values |
@@ -64,10 +64,10 @@ It only uses those input variables to learn relationships.
 
 **So when you explore historical data:**  
 👉 You’re not asking for a specific year.  
-👉 You’re seeing how well the model would have predicted the known cutoffs (2019–2025) based on the conditions in those records.
+👉 You’re seeing how well the model would have predicted the known cutoffs (2019–2026) based on the conditions in those records.
 
 ### Training and Evaluation
-1. The dataset (2019–2025 rows) is split into:
+1. The dataset (2019–2026 rows) is split into:
    - **Train set (80%)** – the model learns patterns from these records.
    - **Test set (20%)** – used to check how well the model generalizes.
 

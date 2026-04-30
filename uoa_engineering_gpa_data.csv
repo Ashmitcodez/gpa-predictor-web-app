@@ -69,3 +69,13 @@ Year,Specialisation,SeatsAvailable,CohortSize,PopularityScore,LowerBoundGPA
 2025,Mechatronics,105,958,9.0,6.9
 2025,Software,120,958,4.0,4.6
 2025,Structural,105,958,1.0,
+2026,Biomedical,35,1040,6.0,2.8
+2026,Chemical and Materials,85,1040,3.0,
+2026,Civil and Environmental,210,1040,5.0,2.6
+2026,Computer Systems,100,1040,4.0,
+2026,Electrical and Electronic,100,1040,6.0,5.0
+2026,Engineering Science,80,1040,10.0,4.3
+2026,Mechanical,125,1040,9.0,6.1
+2026,Mechatronics,105,1040,7.0,6.0
+2026,Software,120,1040,2.0,
+2026,Structural,105,1040,3.0,1.3
